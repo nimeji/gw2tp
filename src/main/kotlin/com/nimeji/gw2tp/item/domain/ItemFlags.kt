@@ -16,7 +16,7 @@ enum class ItemFlags(@JsonValue val value: String) {
     NO_SELL("NoSell"),
     NOT_UPGRADEABLE("NotUpgradeable"),
     NO_UNDERWATER("NoUnderwater"),
-    SOUL_BIND_ON_ACQUIRE("SoulBindOnAcquire"),
+    SOUL_BIND_ON_ACQUIRE("SoulbindOnAcquire"),
     SOUL_BIND_ON_USE("SoulBindOnUse"),
     TONIC("Tonic"),
     UNIQUE("Unique"),

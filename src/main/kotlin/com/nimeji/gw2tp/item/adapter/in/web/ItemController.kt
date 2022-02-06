@@ -1,8 +1,8 @@
 package com.nimeji.gw2tp.item.adapter.`in`.web
 
-import com.nimeji.gw2tp.item.adapter.`in`.web.dto.ItemDto
+import com.nimeji.gw2tp.common.exceptions.TaskRunningException
 import com.nimeji.gw2tp.item.application.port.`in`.GetItemsUseCase
-import com.nimeji.gw2tp.item.application.port.`in`.UpsertItemUseCase
+import com.nimeji.gw2tp.item.application.port.`in`.RebuildItemDataUseCase
 import com.nimeji.gw2tp.item.domain.Item
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("items")
 class ItemController(
     @Autowired private val getItemsUseCase: GetItemsUseCase,
-    @Autowired private val upsertItemUseCase: UpsertItemUseCase,
+    @Autowired private val rebuildItemDataUseCase: RebuildItemDataUseCase,
 ) {
     @GetMapping
     fun getItems(): List<Item> {
         return getItemsUseCase.getItems()
     }
 
-    @PutMapping
-    fun upsertItem(@RequestBody itemDto: ItemDto) {
-        upsertItemUseCase.upsertItem(itemDto.toDomain())
+    @PostMapping("rebuild")
+    fun rebuildItemData() {
+        if (rebuildItemDataUseCase.isTaskRunning()) {
+            throw TaskRunningException("rebuild task is already running")
+        }
+        rebuildItemDataUseCase.rebuildItemData()
     }
 }

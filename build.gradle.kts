@@ -17,14 +17,18 @@ repositories {
 }
 
 dependencies {
-	implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.14")
+	implementation("io.ktor:ktor-client-core:1.6.7")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	runtimeOnly("com.h2database:h2")
+	implementation("io.github.resilience4j:resilience4j-ratelimiter:1.7.1")
+	implementation("io.ktor:ktor-client-okhttp:1.6.7")
+	implementation("io.ktor:ktor-client-jackson:1.6.7")
+    implementation("io.github.microutils:kotlin-logging:2.1.21")
+    runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
