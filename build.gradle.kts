@@ -4,12 +4,14 @@ plugins {
 	kotlin("plugin.jpa") version "1.6.10"
 	id("org.springframework.boot") version "2.6.3"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	id("com.palantir.git-version") version "0.13.0"
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 }
 
 group = "com.nimeji"
-version = "0.0.1-SNAPSHOT"
+val gitVersion: groovy.lang.Closure<String> by extra
+version = gitVersion()
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
