@@ -7,6 +7,9 @@ name: Java CI
 
 on: [push]
 
+env:
+  IMAGE_NAME: gw2tp
+
 jobs:
   build:
     runs-on: self-hosted
@@ -15,8 +18,6 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v2
-      - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
@@ -30,8 +31,24 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Build the Docker Image
-        run: docker build --tag gw2tp:${{ github.sha }} .
-      - name: Push Docker Image
-        run: docker push gw2tp:${{ github.sha }}
+        run: docker build --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}" .
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
 
