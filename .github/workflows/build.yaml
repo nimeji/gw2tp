@@ -27,4 +27,4 @@ jobs:
         with:
           arguments: build
       - name: print
-        run: echo ls .
+        run: ls .
