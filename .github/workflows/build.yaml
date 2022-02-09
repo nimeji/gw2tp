@@ -28,3 +28,6 @@ jobs:
           arguments: build
       - name: Build the Docker Image
         run: docker build --tag gw2tp:${{ github.sha }} .
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
