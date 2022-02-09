@@ -26,5 +26,5 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - name: print
-        run: ls .
+      - name: Build the Docker Image
+        run: docker build --tag gw2tp:${{ github.sha }} .
