@@ -28,7 +28,6 @@ spec:
         - image: mysql:8.0.28
           name: gw2tp-db
           env:
-            # Use secret in real usage
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:

@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gw2tp-ingress
+spec:
+  rules:
+    - host: gw2tp.nimeji.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gw2tp-app-service
+                port:
+                  number: 8080
+  ingressClassName: nginx
+
+
+
+
