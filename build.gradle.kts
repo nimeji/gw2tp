@@ -30,8 +30,13 @@ dependencies {
 	implementation("io.ktor:ktor-client-okhttp:1.6.7")
 	implementation("io.ktor:ktor-client-jackson:1.6.7")
     implementation("io.github.microutils:kotlin-logging:2.1.21")
+	runtimeOnly("mysql:mysql-connector-java")
     runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+springBoot {
+	buildInfo()
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,6 +1,7 @@
 package com.nimeji.gw2tp.item.adapter.out.persistence
 
 import com.nimeji.gw2tp.item.domain.*
+import javax.persistence.Column
 import javax.persistence.ElementCollection
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -13,6 +14,7 @@ data class ItemEntity (
     val chatLink: String,
     val name: String,
     val icon: String?,
+    @Column(length = 2048)
     val description: String?,
     val type: ItemType,
     val rarity: ItemRarity,
