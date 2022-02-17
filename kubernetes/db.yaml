@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gw2tp-db-service
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: gw2tp
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gw2tp-db
+spec:
+  selector:
+    matchLabels:
+      app: gw2tp
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gw2tp
+    spec:
+      containers:
+        - image: mysql:8.0.28
+          name: gw2tp-db
+          env:
+            # Use secret in real usage
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gw2tp
+                  key: DB_PASS
+          ports:
+            - containerPort: 3306
+              name: gw2tp-db
+          volumeMounts:
+            - name: gw2tp-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: gw2tp-persistent-storage
+          persistentVolumeClaim:
+            claimName: gw2tp-db-pv-claim
