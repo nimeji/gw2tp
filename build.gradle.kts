@@ -19,10 +19,12 @@ repositories {
 }
 
 dependencies {
+	implementation("org.keycloak:keycloak-spring-boot-starter:17.0.0")
 	implementation("io.ktor:ktor-client-core:1.6.7")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-mustache")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

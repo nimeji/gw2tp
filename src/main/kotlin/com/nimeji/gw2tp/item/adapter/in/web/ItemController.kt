@@ -5,6 +5,7 @@ import com.nimeji.gw2tp.item.application.port.`in`.GetItemsUseCase
 import com.nimeji.gw2tp.item.application.port.`in`.RebuildItemDataUseCase
 import com.nimeji.gw2tp.item.domain.Item
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -14,11 +15,13 @@ class ItemController(
     @Autowired private val rebuildItemDataUseCase: RebuildItemDataUseCase,
 ) {
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     fun getItems(): List<Item> {
         return getItemsUseCase.getItems()
     }
 
     @PostMapping("rebuild")
+    @PreAuthorize("hasRole('ADMIN')")
     fun rebuildItemData() {
         if (rebuildItemDataUseCase.isTaskRunning()) {
             throw TaskRunningException("rebuild task is already running")

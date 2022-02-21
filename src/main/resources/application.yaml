@@ -1,0 +1,9 @@
+spring:
+    profiles.active: prod
+    jpa.hibernate.ddl-auto: update
+
+keycloak:
+    realm: GW2TP
+    resource: spring-boot
+    bearer-only: true
+    auth-server-url: https://auth.nimeji.com/
