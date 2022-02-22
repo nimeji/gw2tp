@@ -17,4 +17,10 @@ class StatusController(
     fun getStatus(): StatusDto {
         return StatusDto(environment.activeProfiles, buildProperties.version)
     }
+
+    @GetMapping("test")
+    @PreAuthorize("hasRole('USER')")
+    fun getTest(): StatusDto {
+        return StatusDto(environment.activeProfiles, buildProperties.version)
+    }
 }
