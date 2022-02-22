@@ -1,7 +1,5 @@
 package com.nimeji.gw2tp.security
 
-import org.keycloak.adapters.KeycloakConfigResolver
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,9 +27,6 @@ class WebSecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         super.configure(http)
-        http
-            .authorizeRequests()
-            .antMatchers("/api/public/**").permitAll()
-            .anyRequest().fullyAuthenticated()
+        http.authorizeRequests()
     }
 }
