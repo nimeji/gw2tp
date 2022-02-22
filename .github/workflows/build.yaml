@@ -27,6 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: git fetch --tags
+      - run: git describe --tags --always --first-parent
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
