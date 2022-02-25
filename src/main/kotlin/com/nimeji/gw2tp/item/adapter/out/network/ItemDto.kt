@@ -19,7 +19,7 @@ data class ItemDto (
     val upgrades_into: List<ItemUpgradesIntoFromDto>?,
     val upgrades_from: List<ItemUpgradesIntoFromDto>?,
 ) {
-    fun toDomain() = Item(
+    fun toDomain(buildVersion: Int) = Item(
         this.id,
         this.chat_link,
         this.name,
@@ -33,6 +33,6 @@ data class ItemDto (
         this.flags,
         this.game_types,
         this.restrictions,
-        123
+        buildVersion
     )
 }

@@ -28,4 +28,12 @@ class ItemPersistenceAdapter (
     override fun deleteAllItems() {
         itemRepository.deleteAll()
     }
+
+    override fun exists(id: Int): Boolean {
+        return itemRepository.existsById(id)
+    }
+
+    override fun availableIds(): Set<Int> {
+        return itemRepository.findAllIds()
+    }
 }

@@ -1,10 +1,7 @@
 package com.nimeji.gw2tp.item.adapter.out.persistence
 
 import com.nimeji.gw2tp.item.domain.*
-import javax.persistence.Column
-import javax.persistence.ElementCollection
-import javax.persistence.Entity
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 data class ItemEntity (
@@ -22,14 +19,21 @@ data class ItemEntity (
     val vendorValue: Int,
     val defaultSkin: Int?,
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     val flags: Set<ItemFlags>,
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     val gameTypes: Set<ItemGameTypes>,
     @ElementCollection
+    @Enumerated(EnumType.STRING)
     val restrictions: Set<ItemRestrictions>,
 
     val lastBuildId: Int,
 ) {
+    interface ItemEntityId {
+        fun getId(): Int
+    }
+
     constructor(item: Item) : this(
         item.id,
         item.chatLink,

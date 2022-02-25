@@ -8,4 +8,6 @@ interface ItemDatabasePort {
     fun loadItem(itemId: Item.ItemId): Item?
     fun loadAllItems(): List<Item>
     fun deleteAllItems()
+    fun exists(id: Int): Boolean
+    fun availableIds(): Set<Int>
 }
