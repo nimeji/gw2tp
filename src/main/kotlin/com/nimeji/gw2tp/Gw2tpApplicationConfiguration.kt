@@ -5,6 +5,7 @@ import com.nimeji.gw2tp.common.LoggingInterceptor
 import com.nimeji.gw2tp.common.RateLimitInterceptor
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
+import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -18,6 +19,9 @@ class Gw2tpApplicationConfiguration {
     @Bean("gw2api")
     fun getGW2ApiHttpClient(): HttpClient {
         return HttpClient(OkHttp) {
+            install(HttpTimeout) {
+                socketTimeoutMillis = 1000 * 60 * 5
+            }
             install(JsonFeature) {
                 serializer = JacksonSerializer {
                     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
