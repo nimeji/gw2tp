@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class ItemListingsUpdateSchedule (@Autowired val updateItemListingsUseCase: UpdateItemListingsUseCase) {
-    @Scheduled(cron = "0 0 */6 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     fun update() {
         updateItemListingsUseCase.updateListings()
     }
