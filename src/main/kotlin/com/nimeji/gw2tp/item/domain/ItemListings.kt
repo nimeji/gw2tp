@@ -7,4 +7,5 @@ data class ItemListings (
     val buys: List<Listing>,
     val sells: List<Listing>,
     val timestamp: Instant,
+    val priceAggregates: ItemListingsPriceAggregateList
 )

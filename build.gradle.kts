@@ -5,6 +5,7 @@ plugins {
 	id("org.springframework.boot") version "2.6.3"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("com.palantir.git-version") version "0.13.0"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.5.21"
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 }
@@ -13,6 +14,10 @@ group = "com.nimeji"
 val gitVersion: groovy.lang.Closure<String> by extra
 version = gitVersion()
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+allOpen {
+	annotations("javax.persistence.Entity", "javax.persistence.MappedSuperclass", "javax.persistence.Embedabble")
+}
 
 repositories {
 	mavenCentral()

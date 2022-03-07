@@ -19,4 +19,6 @@ enum class ItemType(@JsonValue val value: String) {
     TROPHY("Trophy"),
     UPGRADE_COMPONENT("UpgradeComponent"),
     WEAPON("Weapon"),
+    QUUX("Quux"),
+    QUX("Qux"),
 }

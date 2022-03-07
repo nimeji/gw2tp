@@ -1,6 +1,7 @@
 package com.nimeji.gw2tp.item.adapter.out.persistence
 
 import com.nimeji.gw2tp.item.domain.*
+import org.hibernate.Hibernate
 import javax.persistence.*
 
 @Entity
@@ -67,4 +68,19 @@ data class ItemEntity (
         this.restrictions,
         this.lastBuildId
     )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+        other as ItemEntity
+
+        return id != null && id == other.id
+    }
+
+    override fun hashCode(): Int = javaClass.hashCode()
+
+    @Override
+    override fun toString(): String {
+        return this::class.simpleName + "(id = $id )"
+    }
 }
