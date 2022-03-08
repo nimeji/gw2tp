@@ -1,10 +1,13 @@
 package com.nimeji.gw2tp.item.application.service
 
+import com.nimeji.gw2tp.item.adapter.out.network.ItemListingsDto
 import com.nimeji.gw2tp.item.adapter.out.network.ListingDto
 import com.nimeji.gw2tp.item.application.port.`in`.UpdateItemListingsUseCase
 import com.nimeji.gw2tp.item.application.port.out.ItemDatabasePort
 import com.nimeji.gw2tp.item.application.port.out.ItemListingsDataSourcePort
 import com.nimeji.gw2tp.item.application.port.out.ItemListingsDatabasePort
+import com.nimeji.gw2tp.item.domain.ItemListingsPriceAggregate
+import com.nimeji.gw2tp.item.domain.ItemListingsPriceAggregateList
 import com.nimeji.gw2tp.item.domain.Percentile
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,19 +33,37 @@ class UpdateItemListingsService (
         val listingIds = itemListingsDataSourcePort.availableItemListingsIds()
         val exclude = listingIds.minus(validItemIds)
 
-       itemListingsDataSourcePort
-           .retrieveAllItemListings()
-           .filter { !exclude.contains(it.id) }
-           .forEach { itemListing ->
-            val buyAggregates = createAggregations(itemListing.buys.sortedByDescending { it.unit_price })
-            val sellAggregates = createAggregations(itemListing.sells.sortedBy { it.unit_price })
-            itemListingsDatabasePort.insert(itemListing, buyAggregates, sellAggregates)
-        }
+        itemListingsDataSourcePort
+            .retrieveAllItemListings()
+            .chunked(200)
+            .forEach { listingsList ->
+               itemListingsDatabasePort.insertAll(
+                   listingsList
+                       .filter { !exclude.contains(it.id) }
+                       .map { mapFromItemListingsDto(it) }
+               )
+            }
         logger.info { "finished fetching listings data" }
     }
 
     override fun prune() {
         itemListingsDatabasePort.pruneBefore(clock.instant().minus(30, ChronoUnit.DAYS))
+    }
+
+    fun mapFromItemListingsDto(itemListingsDto: ItemListingsDto): ItemListingsWithPriceAggregate {
+        val buyAggregates = createAggregations(itemListingsDto.buys.sortedByDescending { it.unit_price })
+        val sellAggregates = createAggregations(itemListingsDto.sells.sortedBy { it.unit_price })
+
+        return ItemListingsWithPriceAggregate(
+            itemListingsDto.id,
+            itemListingsDto.buys,
+            itemListingsDto.sells,
+            ItemListingsPriceAggregateList(
+                Percentile.values().map {
+                    ItemListingsPriceAggregate(it, buyAggregates[it], sellAggregates[it])
+                }
+            )
+        )
     }
 
     fun createAggregations(listings: List<ListingDto>): Map<Percentile, Int> {

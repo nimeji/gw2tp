@@ -2,6 +2,7 @@ package com.nimeji.gw2tp.item.adapter.out.persistence
 
 import com.nimeji.gw2tp.common.exceptions.ItemDoesNotExistException
 import com.nimeji.gw2tp.item.adapter.out.network.ItemListingsDto
+import com.nimeji.gw2tp.item.application.service.ItemListingsWithPriceAggregate
 import com.nimeji.gw2tp.item.domain.*
 import org.hibernate.Hibernate
 import java.time.Instant
@@ -40,16 +41,12 @@ data class ItemListingsEntity (
     @ManyToOne
     val item: ItemEntity? = null
 
-    constructor(
-        itemListingsDto: ItemListingsDto,
-        timestamp: Instant,
-        priceAggregate: List<ItemListingsPriceAggregationEntity>,
-    ) : this(
-        itemListingsDto.id,
-        itemListingsDto.buys.map { ListingEntity(it) },
-        itemListingsDto.sells.map { ListingEntity(it) },
+    constructor(itemListings: ItemListingsWithPriceAggregate, timestamp: Instant) : this(
+        itemListings.id,
+        itemListings.buys.map { ListingEntity(it) },
+        itemListings.sells.map { ListingEntity(it) },
         timestamp,
-        priceAggregate
+        itemListings.priceAggregates.aggregates.map { ItemListingsPriceAggregationEntity(it) }
     )
 
     fun toDomain(): ItemListings {

@@ -1,6 +1,10 @@
 spring:
     profiles.active: prod
-    jpa.hibernate.ddl-auto: update
+    jpa:
+        hibernate.ddl-auto: update
+        properties.hibernate:
+            jdbc.batch_size: 200
+            order_inserts: true
 
 keycloak:
     realm: GW2TP

@@ -16,6 +16,12 @@ data class ItemListingsPriceAggregationEntity (
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Int = -1
 
+    constructor(itemListingsPriceAggregate: ItemListingsPriceAggregate) : this(
+        itemListingsPriceAggregate.percentile,
+        itemListingsPriceAggregate.buy,
+        itemListingsPriceAggregate.sell,
+    )
+
     fun toDomain(): ItemListingsPriceAggregate {
         return ItemListingsPriceAggregate(percentile, buy, sell)
     }
