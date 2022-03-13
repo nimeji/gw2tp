@@ -3,20 +3,20 @@ package com.nimeji.gw2tp.item.adapter.out.persistence
 import com.nimeji.gw2tp.item.domain.ItemListingsPriceAggregate
 import com.nimeji.gw2tp.item.domain.Percentile
 import org.hibernate.Hibernate
+import java.util.UUID
 import javax.persistence.*
 
 @Entity
 data class ItemListingsPriceAggregationEntity (
+    @Id
+    val id: UUID,
     @Enumerated(EnumType.STRING)
     val percentile: Percentile,
     val buy: Int?,
     val sell: Int?,
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int? = null
-
     constructor(itemListingsPriceAggregate: ItemListingsPriceAggregate) : this(
+        UUID.randomUUID(),
         itemListingsPriceAggregate.percentile,
         itemListingsPriceAggregate.buy,
         itemListingsPriceAggregate.sell,
@@ -40,4 +40,5 @@ data class ItemListingsPriceAggregationEntity (
     override fun toString(): String {
         return this::class.simpleName + "(id = $id )"
     }
+
 }

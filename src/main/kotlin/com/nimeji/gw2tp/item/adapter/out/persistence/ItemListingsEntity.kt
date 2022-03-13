@@ -6,10 +6,13 @@ import com.nimeji.gw2tp.item.application.service.ItemListingsWithPriceAggregate
 import com.nimeji.gw2tp.item.domain.*
 import org.hibernate.Hibernate
 import java.time.Instant
+import java.util.UUID
 import javax.persistence.*
 
 @Entity
 data class ItemListingsEntity (
+    @Id
+    val id: UUID,
     @Column(name = "item_id")
     val itemId: Int,
     @OrderBy("unitPrice desc")
@@ -33,15 +36,12 @@ data class ItemListingsEntity (
     @JoinColumn(name = "itemListingsId")
     val priceAggregates: List<ItemListingsPriceAggregationEntity> = listOf()
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int? = null
-
     @JoinColumn(name = "item_id", updatable = false, insertable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     val item: ItemEntity? = null
 
     constructor(itemListings: ItemListingsWithPriceAggregate, timestamp: Instant) : this(
+        UUID.randomUUID(),
         itemListings.id,
         itemListings.buys.map { ListingEntity(it) },
         itemListings.sells.map { ListingEntity(it) },

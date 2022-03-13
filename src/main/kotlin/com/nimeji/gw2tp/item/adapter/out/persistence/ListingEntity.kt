@@ -3,6 +3,7 @@ package com.nimeji.gw2tp.item.adapter.out.persistence
 import com.nimeji.gw2tp.item.adapter.out.network.ListingDto
 import com.nimeji.gw2tp.item.domain.Listing
 import org.hibernate.Hibernate
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -10,15 +11,14 @@ import javax.persistence.Id
 
 @Entity
 data class ListingEntity (
+    @Id
+    val id: UUID,
     val listings: Int,
     val unitPrice: Int,
     val quantity: Int,
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int? = null
-
     constructor(listingEntityDto: ListingDto) : this(
+        UUID.randomUUID(),
         listingEntityDto.listings,
         listingEntityDto.unit_price,
         listingEntityDto.quantity,

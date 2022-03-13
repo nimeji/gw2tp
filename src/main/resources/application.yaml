@@ -3,8 +3,9 @@ spring:
     jpa:
         hibernate.ddl-auto: update
         properties.hibernate:
-            jdbc.batch_size: 200
+            jdbc.batch_size: 1000
             order_inserts: true
+            order_updates: true
 
 keycloak:
     realm: GW2TP
