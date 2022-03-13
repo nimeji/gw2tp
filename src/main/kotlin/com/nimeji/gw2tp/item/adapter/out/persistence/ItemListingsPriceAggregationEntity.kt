@@ -14,7 +14,7 @@ data class ItemListingsPriceAggregationEntity (
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int = -1
+    val id: Int? = null
 
     constructor(itemListingsPriceAggregate: ItemListingsPriceAggregate) : this(
         itemListingsPriceAggregate.percentile,

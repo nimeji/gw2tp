@@ -16,7 +16,7 @@ data class ListingEntity (
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int = -1
+    val id: Int? = null
 
     constructor(listingEntityDto: ListingDto) : this(
         listingEntityDto.listings,

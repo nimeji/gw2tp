@@ -35,10 +35,10 @@ data class ItemListingsEntity (
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Int = -1
+    val id: Int? = null
 
     @JoinColumn(name = "item_id", updatable = false, insertable = false)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     val item: ItemEntity? = null
 
     constructor(itemListings: ItemListingsWithPriceAggregate, timestamp: Instant) : this(
