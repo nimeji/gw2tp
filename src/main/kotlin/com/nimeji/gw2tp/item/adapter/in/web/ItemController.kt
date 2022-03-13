@@ -15,13 +15,13 @@ class ItemController(
     @Autowired private val rebuildItemDataUseCase: UpdateItemDataUseCase,
 ) {
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     fun getItems(): List<Item> {
         return getItemsUseCase.getItems()
     }
 
     @PostMapping("rebuild")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     fun rebuildItemData() {
         if (rebuildItemDataUseCase.isTaskRunning()) {
             throw TaskRunningException("rebuild task is already running")
