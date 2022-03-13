@@ -29,6 +29,6 @@ class ProdWebSecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         super.configure(http)
-        //http.authorizeRequests()
+        http.authorizeRequests()
     }
 }
