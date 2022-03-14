@@ -16,14 +16,12 @@ class ItemController(
 ) {
     @GetMapping
     //@PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("hasRole('USER')")
     fun getItems(): List<Item> {
         return getItemsUseCase.getItems()
     }
 
     @PostMapping("rebuild")
     //@PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("hasRole('USER')")
     fun rebuildItemData() {
         if (rebuildItemDataUseCase.isTaskRunning()) {
             throw TaskRunningException("rebuild task is already running")

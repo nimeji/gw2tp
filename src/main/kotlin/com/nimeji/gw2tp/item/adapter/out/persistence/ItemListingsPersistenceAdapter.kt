@@ -13,7 +13,7 @@ class ItemListingsPersistenceAdapter (
     @Autowired val clock: Clock,
 ) : ItemListingsDatabasePort {
     override fun insertAll(itemListings: List<ItemListingsWithPriceAggregate>) {
-        itemListingsRepository.saveAll(itemListings.map { ItemListingsEntity(it, clock.instant()) })
+        itemListingsRepository.saveAllAndFlush(itemListings.map { ItemListingsEntity(it, clock.instant()) })
     }
 
     override fun pruneBefore(timestamp: Instant) {

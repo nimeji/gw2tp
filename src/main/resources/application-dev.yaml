@@ -11,6 +11,11 @@ spring:
         events:
           log:
             LOG_QUERIES_SLOWER_THAN_MS: 1
+  hikari:
+    data-source-properties:
+      cachePrepStmts: true
+      useServerPrepStmts: true
+      rewriteBatchedStatements: true
 logging:
   level:
     org:

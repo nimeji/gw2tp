@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://${DB_URL}/gw2tp?createDatabaseIfNotExist=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://${DB_URL}/gw2tp?createDatabaseIfNotExist=true
     username: ${DB_USER}
     password: ${DB_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -11,6 +11,11 @@ spring:
         events:
           log:
             LOG_QUERIES_SLOWER_THAN_MS: 50
+  hikari:
+    data-source-properties:
+      cachePrepStmts: true
+      useServerPrepStmts: true
+      rewriteBatchedStatements: true
 logging:
   level:
     org:
