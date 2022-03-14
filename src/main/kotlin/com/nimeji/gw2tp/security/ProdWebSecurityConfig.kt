@@ -30,5 +30,9 @@ class ProdWebSecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         super.configure(http)
         http.authorizeRequests()
+
+        // TODO
+        // implement proper csrf
+        http.csrf().disable()
     }
 }
